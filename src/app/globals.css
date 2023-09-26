@@ -12,3 +12,69 @@
   }
 }
 
+@layer components {
+  @media screen and (min-width: 640px) {
+    .taskbar {
+      @apply top-0 left-0 h-full w-72;
+      @apply grid grid-rows-6 grid-cols-1;
+    }
+
+    .taskbar
+      > .taskbar-logo {
+        @apply w-8/12 h-auto m-auto;
+      }
+
+    .taskbar
+      > .taskbar-container {
+        @apply flex flex-col flex-nowrap items-start justify-around place-self-center;
+        @apply bg-my_red m-auto rounded-2xl opacity-75;
+        @apply row-span-2 row-start-2 col-start-1 w-min h-auto p-2 m-2 mt-0;
+      }
+
+    .taskbar
+      > .taskbar-container
+        > .taskbar-button {
+          @apply bg-my_white p-2 pr-3 pl-3 m-2 rounded-2xl w-min text-center;
+          @apply font-semibold text-xl;
+          @apply hover:bg-my_black hover:text-my_white transition-all duration-500;
+          @apply flex flex-row flex-nowrap items-center justify-between;
+        }
+    
+    .taskbar-button > svg {
+      @apply mr-2;
+    }
+  }
+  
+  @media screen and (max-width: 640px) {
+    .taskbar {
+      @apply sticky top-0 left-0 w-full h-12;
+      @apply flex flex-row flex-nowrap items-center justify-between;
+    }
+
+    .taskbar
+      > .taskbar-logo {
+        @apply w-4/12 h-4 ml-4 -mt-4 mr-2;
+      }
+
+    .taskbar
+      > .taskbar-container {
+        @apply flex flex-row flex-nowrap items-center justify-around;
+        @apply bg-my_red mr-4 mt-12 ml-2 rounded-2xl opacity-75;
+        @apply h-full w-6/12 text-center;
+      }
+    
+    .taskbar-button {
+      @apply flex flex-row flex-nowrap items-center justify-evenly;
+    }
+
+    .taskbar-button > p {
+      @apply hidden;
+    }
+
+    .taskbar-button > svg {
+      @apply absolute m-auto bg-my_white rounded-full p-2 text-my_black;
+      @apply hover:text-my_white hover:bg-my_black transition-all duration-500;
+    }
+  }
+}
+
