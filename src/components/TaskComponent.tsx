@@ -1,10 +1,10 @@
-import React, { Dispatch, SetStateAction, useEffect, useState } from 'react'
+import React, { Dispatch, SetStateAction, Suspense, useEffect, useState } from 'react'
 import TaskContainer from './TaskContainer';
+import Loading from '@/app/loading';
 
-const TaskComponent = (props: {pageStates: [any, any]}) => {
-
-    const pageStates = props.pageStates;
+const TaskComponent = () => {
     const [Tasks, setTasksState] = useState<any>([]);
+    const [Loaded, setLoaded] = useState(false);
 
     const setTasks = (data: {name: string, tasks: {id: number}[]}[]) => {
         const tasks: { id: number; }[] = []
@@ -18,17 +18,15 @@ const TaskComponent = (props: {pageStates: [any, any]}) => {
 
 
     useEffect(() => {
-        fetch("/tasks?type=all").then((response) => {response.json().then((data) => {setTasks(data)})})
-    }, [pageStates])
-    
-    if (Tasks.length === 0) {
-        return
-    }
+        fetch("/tasks?type=all")
+            .then((response) => {response.json().then((data) => {setTasks(data)})})
+            .then(() => {setLoaded(true)})
+    }, [])
 
-    return (
-        <section id={"task-component"} className={"task-component"}>
-            {Tasks.map((task: {id: number}, index: number) => {return <TaskContainer key= {index} id={task.id} />})}
-        </section>
+    return ( !Loaded ? <Loading /> :
+            <section id={"task-component"} className={"task-component"}>
+                {Tasks.map((task: {id: number}, index: number) => {return <TaskContainer key= {index} id={task.id} />})}
+            </section>
     )
 }
 export default TaskComponent

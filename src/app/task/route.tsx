@@ -23,13 +23,12 @@ export async function GET(request: Request) {
         }
     });
 
+    await prisma.$disconnect();
     if (data != null) {
-        prisma.$disconnect();
         return new NextResponse(JSON.stringify(data), {
             status: 200,
         });
     } else {
-        prisma.$disconnect();
         return new NextResponse(JSON.stringify({message: "No data found"}), {
             status: 404,
         });
@@ -44,7 +43,7 @@ export async function PATCH(request: Request) {
     const type = searchParams.get("type");
 
     if (id == null) {
-        prisma.$disconnect();
+        await prisma.$disconnect();
         return new NextResponse(JSON.stringify({message: "No id provided"}), { status: 400 });
     }
 
@@ -59,7 +58,7 @@ export async function PATCH(request: Request) {
                     }
                 }
             }});
-            prisma.$disconnect();
+            await prisma.$disconnect();
             return new NextResponse(JSON.stringify({message: "Task completed"}), { status: 200 });
         }
         case "archive": {
@@ -72,7 +71,7 @@ export async function PATCH(request: Request) {
                     }
                 }
             }});
-            prisma.$disconnect();
+            await prisma.$disconnect();
             return new NextResponse(JSON.stringify({message: "Task archived"}), { status: 200 });
         }
         case "in progress": {
@@ -85,7 +84,7 @@ export async function PATCH(request: Request) {
                     }
                 }
             }});
-            prisma.$disconnect();
+            await prisma.$disconnect();
             return new NextResponse(JSON.stringify({message: "Task in progress"}), { status: 200 });
         }
         case "incomplete": {
@@ -98,23 +97,24 @@ export async function PATCH(request: Request) {
                     }
                 }
             }});
-            prisma.$disconnect();
+            await prisma.$disconnect();
             return new NextResponse(JSON.stringify({message: "Task incomplete"}), { status: 200 });
         }
         case "update": {
             const body = await request.json();
+            console.log(body);
             await prisma.task.update({ where: {
                 id: parseInt(id)
             }, data: {
                 title: body.title,
                 contents: body.contents
             }});
-            prisma.$disconnect();
+            await prisma.$disconnect();
             return new NextResponse(JSON.stringify({message: "Task updated"}), { status: 200 });
         }
 
         case "default": {
-            prisma.$disconnect();
+            await prisma.$disconnect();
             return new NextResponse(JSON.stringify({message: "No instruction provided"}), { status: 400 });
         }
     }

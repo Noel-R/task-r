@@ -10,10 +10,15 @@
   body {
     @apply relative;
     @apply bg-my_black;
+    @apply font-Teko;
   }
 }
 
 @layer components {
+
+  .hide {
+    @apply hidden border-0 !important;
+  }
 
   .active {
     @apply bg-my_green text-my_white !important;
@@ -73,7 +78,7 @@
           @apply font-semibold text-xl;
           @apply hover:bg-my_black hover:text-my_white transition-all duration-500;
           @apply flex flex-row flex-nowrap items-center justify-between;
-          @apply cursor-pointer select-none;
+          @apply cursor-pointer select-none font-Teko;
         }
     
     .taskbar-button > svg {
@@ -86,6 +91,7 @@
       @apply relative flex flex-col flex-nowrap items-center justify-around;
       @apply p-6 bg-my_white text-my_black rounded-2xl;
       @apply border-8 border-my_red m-10;
+      @apply opacity-80;
     }
 
     .task-body > form > input {
@@ -118,11 +124,76 @@
       @apply top-0 right-0 absolute;
     }
 
+    .task-states-div {
+      @apply flex flex-col flex-nowrap items-center justify-around;
+      @apply -right-9 top-4 absolute;
+      @apply bg-my_white rounded-2xl border-4 border-my_red;
+    }
+
+    .task-states-div > a {
+      @apply w-4 h-4 m-2 rounded-full;
+    }
+
     .task-delete {
       @apply w-10 h-10 m-2 rounded-full;
       @apply bg-my_red;
       @apply -bottom-6 left-0 absolute;
       @apply hover:scale-110 transition-all duration-500 ease-in-out;
+    }
+
+    .task-update {
+      @apply w-10 h-10 m-2 rounded-full;
+      @apply bg-my_green;
+      @apply -bottom-6 left-12 absolute;
+      @apply hover:scale-110 transition-all duration-500 ease-in-out;
+    }
+
+    /* Creating Tasks */
+
+    .add-dialog {
+      @apply absolute w-full h-full;
+      @apply flex flex-col flex-nowrap items-center justify-center;
+      @apply bg-my_black bg-opacity-80 z-50;
+    }
+
+    .add-dialog > form {
+      @apply bg-my_white p-4 rounded-2xl border-solid border-8 border-my_red;
+      @apply flex flex-col flex-nowrap items-center justify-around;
+    }
+    .add-dialog > form > label > input, textarea {
+      @apply w-full bg-my_white-600 border-solid border-my_red border-4 text-left;
+      @apply text-lg font-semibold;
+      @apply p-2 m-auto rounded-2xl resize-none;
+    }
+
+    .add-dialog > form > label > textarea {
+      @apply h-32 text-base font-semibold m-auto w-full;
+    }
+    
+    .add-dialog > form > label > input:focus, textarea:focus, select:focus {
+      @apply outline-none;
+    }
+
+    .add-dialog > form > label {
+      @apply flex flex-col flex-nowrap items-start justify-around;
+      @apply w-full text-2xl font-semibold text-my_black m-2;
+    }
+
+    .add-dialog > form > menu {
+      @apply flex flex-row flex-nowrap justify-around w-full h-min text-2xl font-semibold m-2;
+    }
+
+    .add-dialog > form > menu > button {
+      @apply p-4 rounded-full;
+      @apply transition-all duration-500 ease-in-out hover:scale-110;
+    }
+
+    .add-close {
+      @apply bg-my_red text-white m-auto;
+    }
+
+    .add-submit {
+      @apply bg-my_green text-white m-auto;
     }
 
   }
@@ -159,27 +230,25 @@
 
     /* Tasks */
 
-    .task-container {
-      @apply flex flex-col flex-nowrap items-center justify-around;
-      @apply bg-my_red m-4 rounded-2xl opacity-75;
-      @apply w-auto h-min p-2;
+    .task-component {
+      @apply overflow-x-hidden overflow-y-scroll;
     }
 
     .task-body {
       @apply relative flex flex-col flex-nowrap items-center justify-around;
       @apply p-2 bg-my_white text-my_black rounded-2xl;
-      @apply m-10 border-my_red border-8;
+      @apply m-10 border-my_red border-8 mt-12 mb-12;
     }
 
     .task-body > form > input {
       @apply w-min bg-transparent border-none text-left;
-      @apply text-xl font-semibold;
+      @apply text-xl font-semibold p-2;
     }
     .task-body > form > input:focus, textarea:focus, select:focus {
       @apply outline-none;
     }
     .task-body > form > textarea {
-      @apply w-min bg-transparent border-none text-left;
+      @apply w-auto bg-transparent border-none text-left;
       @apply resize-none;
       @apply text-lg;
     }
@@ -199,6 +268,78 @@
       @apply w-8 h-8 m-2 rounded-full;
       @apply bg-my_green;
       @apply top-0 right-0 absolute;
+    }
+
+    .task-states-div {
+      @apply flex flex-col flex-nowrap items-center justify-around;
+      @apply -right-9 top-6 absolute;
+      @apply bg-my_white rounded-2xl border-4 border-my_red;
+    }
+
+    .task-states-div > a {
+      @apply w-4 h-4 m-2 rounded-full;
+    }
+
+    .task-delete {
+      @apply w-10 h-10 m-2 rounded-full;
+      @apply bg-my_red;
+      @apply -bottom-6 left-0 absolute;
+      @apply hover:scale-110 transition-all duration-500 ease-in-out;
+    }
+
+    .task-update {
+      @apply w-10 h-10 m-2 rounded-full;
+      @apply bg-my_green;
+      @apply -bottom-6 left-12 absolute;
+      @apply hover:scale-110 transition-all duration-500 ease-in-out;
+    }
+
+    /* Creating Tasks */
+
+    .add-dialog {
+      @apply absolute w-full h-full;
+      @apply flex flex-col flex-nowrap items-center justify-center;
+      @apply bg-my_black bg-opacity-80 z-50;
+    }
+
+    .add-dialog > form {
+      @apply bg-my_white p-4 rounded-2xl border-solid border-8 border-my_red;
+      @apply flex flex-col flex-nowrap items-center justify-around;
+    }
+    .add-dialog > form > label > input, textarea {
+      @apply w-full bg-my_white-600 border-solid border-my_red border-4 text-left;
+      @apply text-lg font-semibold;
+      @apply p-2 m-auto rounded-2xl resize-none;
+    }
+
+    .add-dialog > form > label > textarea {
+      @apply h-32 text-base font-semibold m-auto w-full;
+    }
+    
+    .add-dialog > form > label > input:focus, textarea:focus, select:focus {
+      @apply outline-none;
+    }
+
+    .add-dialog > form > label {
+      @apply flex flex-col flex-nowrap items-start justify-around;
+      @apply w-full text-2xl font-semibold text-my_black m-2;
+    }
+
+    .add-dialog > form > menu {
+      @apply flex flex-row flex-nowrap justify-around w-full h-min text-2xl font-semibold m-2;
+    }
+
+    .add-dialog > form > menu > button {
+      @apply p-4 rounded-full;
+      @apply transition-all duration-500 ease-in-out hover:scale-110;
+    }
+
+    .add-close {
+      @apply bg-my_red text-white m-auto;
+    }
+
+    .add-submit {
+      @apply bg-my_green text-white m-auto;
     }
   }
 }

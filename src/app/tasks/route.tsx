@@ -13,13 +13,13 @@ export async function DELETE(request: Request) {
         },
     });
 
+    await prisma.$disconnect();
+
     if (data != null) {
-        prisma.$disconnect();
         return new NextResponse(JSON.stringify(data), {
             status: 200,
         });
     } else {
-        prisma.$disconnect();
         return new NextResponse(JSON.stringify({message: "No data found"}), {
             status: 404,
         });
@@ -35,14 +35,14 @@ export async function POST(request: Request) {
             stateId: body.stateId
         },
     });
+    
+    await prisma.$disconnect();
 
     if (data != null) {
-        prisma.$disconnect();
         return new NextResponse(JSON.stringify(data), {
             status: 200,
         });
     } else {
-        prisma.$disconnect();
         return new NextResponse(JSON.stringify({message: "No data found"}), {
             status: 404,
         });
@@ -62,13 +62,13 @@ export async function PATCH(request: Request) {
         },
     });
 
+    await prisma.$disconnect();
+
     if (data != null) {
-        prisma.$disconnect();
         return new NextResponse(JSON.stringify(data), {
             status: 200,
         });
     } else {
-        prisma.$disconnect();
         return new NextResponse(JSON.stringify({message: "No data found"}), {
             status: 404,
         });
@@ -79,7 +79,6 @@ export async function GET(request: Request) {
 
     const { searchParams } = new URL(request.url);
     const option = searchParams.get("type");
-    console.log(option);
     let data;
 
     switch (option) {
@@ -143,14 +142,12 @@ export async function GET(request: Request) {
         }
     }
 
-
+    await prisma.$disconnect();
     if (data != null) {
-        prisma.$disconnect();
         return new NextResponse(JSON.stringify(data), {
             status: 200,
         });
     } else {
-        prisma.$disconnect();
         return new NextResponse(JSON.stringify({message: "No data found"}), {
             status: 404,
         });
